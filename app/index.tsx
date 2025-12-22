@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import "./global.css";
 import { Image, View } from "react-native";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function App() {
   
+  const router = useRouter();
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace("/onboarding/Login")

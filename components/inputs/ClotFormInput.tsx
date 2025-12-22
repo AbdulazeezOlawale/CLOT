@@ -8,6 +8,7 @@ interface ClotFormInputProps {
   placeholder: string;
   autoComplete?: TextInputProps["autoComplete"];
   secureTextEntry?: boolean;
+  classname?: string;
 }
 
 const ClotFormInput = ({
@@ -17,6 +18,7 @@ const ClotFormInput = ({
   placeholder,
   autoComplete,
   secureTextEntry = false,
+  classname
 }: ClotFormInputProps) => {
   return (
     <TextInput
@@ -25,7 +27,7 @@ const ClotFormInput = ({
       secureTextEntry={secureTextEntry}
       onChangeText={(text: string) => setValue(text)}
       placeholderTextColor="black"
-      className="bg-secondary h-14 rounded-md text-[#272727] text-xl font-medium"
+      className={`bg-secondary h-14 rounded-md text-[#272727] text-xl font-medium ${classname}`}
       style={{ paddingLeft: 16 }}
       keyboardType={keyboardType}
       autoCapitalize="none"

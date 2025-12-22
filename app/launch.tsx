@@ -1,11 +1,13 @@
 import { View } from "react-native";
 import React, { useEffect, useRef } from "react";
 import * as Animatable from "react-native-animatable";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
+import { getAuth } from "@firebase/auth";
 
 const Launch = () => {
   const backgroundRef = useRef<any>(null);
   const logoRef = useRef<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,7 +16,14 @@ const Launch = () => {
           backgroundRef.current.fadeOut(500),
           logoRef.current.fadeOut(500),
         ]).then(() => {
-          router.replace("/onboarding/PasswordSignIn");
+          // if user is authenticated route to the main screen else route to the auth screen
+          getAuth().onAuthStateChanged((user) => {
+            if (!user) {
+              router.replace("/onboarding/Login");
+            } else {
+              router.replace("/auth/WelcomePage");
+            }
+          });
         });
       }
     }, 4000);

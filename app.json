@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "clot",
+    "name": "Clot",
     "slug": "clot",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -52,5 +52,8 @@
         "projectId": "afd3cca5-a951-4a32-9db6-9420689b6ff6"
       }
     }
+  },
+  "submit": {
+    "production": {}
   }
 }

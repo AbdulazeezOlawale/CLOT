@@ -20,7 +20,7 @@ const ClotPressable = ({
         radius: 200,
         foreground: true,
       }}
-      className={`${classname}}`}
+      className={`${classname}`}
     >
       {children}
     </Pressable>
