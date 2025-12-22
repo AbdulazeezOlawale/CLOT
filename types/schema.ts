@@ -1,0 +1,66 @@
+import { JSX } from "react";
+import { z } from "zod";
+
+export const signupSchema = z.object({
+  firstName: z
+    .string()
+    .trim()
+    .min(1, "First name is required")
+    .min(2, "First name must have at least 2 characters")
+    .regex(/^[A-Za-z]+$/, "First name must contain only letters"),
+
+  lastName: z
+    .string()
+    .trim()
+    .min(1, "Last name is required")
+    .min(2, "Last name must have at least 2 characters")
+    .regex(/^[A-Za-z]+$/, "Last name must contain only letters"),
+
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .trim()
+    .email("Please enter a valid email address like name@example.com"),
+
+  password: z
+    .string()
+    .trim()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters long")
+    .regex(/[A-Z]/, "At least one uppercase letter required")
+    .regex(/[a-z]/, "At least one lowercase letter required")
+    .regex(/[0-9]/, "At least one number required")
+    .regex(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "At least one special character required (!@#$%^&*)"
+    ),
+});
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .trim()
+    .email("Please enter a valid email address like name@example.com"),
+
+  password: z
+    .string()
+    .trim()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters long")
+    .regex(/[A-Z]/, "At least one uppercase letter required")
+    .regex(/[a-z]/, "At least one lowercase letter required")
+    .regex(/[0-9]/, "At least one number required")
+    .regex(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "At least one special character required (!@#$%^&*)"
+    ),
+});
+
+export type SignupSchemaType = z.infer<typeof signupSchema>;
+export type LoginSchemaType = z.infer<typeof loginSchema>;
+
+export interface continueWithDataInterface {
+  icon: JSX.Element;
+  text: string;
+}

@@ -6,12 +6,14 @@ import HeaderText from "../common/HeaderText";
 
 interface SafeAreaWrapperProps {
   children: React.ReactNode;
+  aboveHeaderText?: React.ReactNode;
   edges?: ("top" | "bottom" | "left" | "right")[];
   headerText?: string
 }
 
 export function SafeAreaWrapper({
   children,
+  aboveHeaderText,
   edges = ["top", "bottom"],
   headerText
 }: SafeAreaWrapperProps) {
@@ -31,6 +33,7 @@ export function SafeAreaWrapper({
         <StatusBar style={"dark"} />
         {/* <StatusBar style={colorScheme === "dark" ? "light" : "dark"} /> */}
         <View className="flex flex-col gap-10">
+          {aboveHeaderText && <View>{aboveHeaderText}</View>}
           {headerText &&<HeaderText headerText={headerText} />}
           {children}
         </View>

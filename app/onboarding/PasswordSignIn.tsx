@@ -1,42 +1,43 @@
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaWrapper } from "@/components/layout/SafeAreaWrapper";
-import ClotFormInput from "@/components/inputs/ClotFormInput";
-import { Eye, EyeClosed } from "lucide-react-native";
-import ClotPressable from "@/components/common/ClotPressable";
+import ClotButton from "@/components/clotbutton";
+import { router } from "expo-router";
+import ClotPasswordInput from "@/components/inputs/ClotPasswordInput";
+import ForgetPasswordLInk from "@/components/common/ForgetPasswordLInk";
 
 const PasswordSignIn = () => {
   const [password, setPassword] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [passwordValidationError, setPasswordValidationError] =
+    useState<string>("");
 
-  const toggleVisibility = () => {
-    setShowPassword(!showPassword);
+  const handlePasswordValidation = () => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (password.trim().length === 0) {
+      setPasswordValidationError("Password is required");
+    } else if (!passwordRegex.test(password)) {
+      setPasswordValidationError(
+        "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character."
+      );
+    } else {
+      setPasswordValidationError("");
+      router.push("/onboarding/Login");
+    }
   };
 
   return (
     <SafeAreaWrapper headerText="Sign in">
-      <View className="flex flex-row gap-1 items-center bg-secondary rounded-md overflow-hidden">
-        <View className="flex-1">
-          <ClotFormInput
-            keyboardType="default"
-            autoComplete="password"
-            placeholder="Enter your password"
-            value={password}
-            setValue={setPassword}
-            secureTextEntry={showPassword}
-          />
+      <View className="flex-gap-3">
+        <View>
+          <ClotPasswordInput value={password} setValue={setPassword}/>
+          <Text className="text-red-500">{passwordValidationError}</Text>
         </View>
 
-        <ClotPressable
-          onPress={toggleVisibility}
-          classname="p-4 flex items-center align-middle"
-        >
-          {showPassword ? (
-            <Eye size={20} className="flex items-center justify-center" />
-          ) : (
-            <EyeClosed size={20} className="flex items-center justify-center" />
-          )}
-        </ClotPressable>
+        <ClotButton buttonText="Continue" onPress={handlePasswordValidation} />
+
+        <ForgetPasswordLInk/>
       </View>
     </SafeAreaWrapper>
   );

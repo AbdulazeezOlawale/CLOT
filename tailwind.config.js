@@ -11,5 +11,14 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.flex-gap-3': {
+          display: 'flex',
+          gap: 12,
+        },
+      });
+    },
+  ],
 }

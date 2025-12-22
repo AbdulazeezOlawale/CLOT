@@ -10,7 +10,7 @@ interface ClotButtonProps {
 const ClotButton = ({ buttonText, onPress }: ClotButtonProps) => {
   return (
     <ClotPressable
-      onPress={() => onPress}
+      onPress={() => onPress?.()}
       classname="px-6 py-3 bg-primary rounded-full overflow-hidden flex items-center justify-center"
     >
       <Text className="text-secondary text-xl font-bold leading-relaxed">
