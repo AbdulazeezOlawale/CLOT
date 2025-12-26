@@ -80,6 +80,10 @@ export default function RootLayout() {
           name="onboarding"
           options={{ title: "Onboarding", headerShown: false }}
         />
+        <Stack.Screen
+          name="(home)"
+          options={{ title: "home", headerShown: false }}
+        />
       </Stack>
       <Toast config={toastConfig} />
     </>

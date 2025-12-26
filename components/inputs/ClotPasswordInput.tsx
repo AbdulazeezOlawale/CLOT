@@ -3,15 +3,9 @@ import React, { useState } from 'react'
 import ClotFormInput from './ClotFormInput';
 import ClotPressable from '../common/ClotPressable';
 import { Eye, EyeClosed } from 'lucide-react-native';
+import { ClotGeneralInputProps } from '@/types/schema';
 
-interface ClotPasswordInputProps {
-    value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
-  placeholder?: string;
-  classname?: string;
-}
-
-const ClotPasswordInput = ({value, setValue, placeholder, classname}: ClotPasswordInputProps) => {
+const ClotPasswordInput = ({value, setValue, placeholder, classname}: ClotGeneralInputProps) => {
     
   const [showPassword, setShowPassword] = useState<boolean>(true);
     

@@ -21,7 +21,7 @@ const Launch = () => {
             if (!user) {
               router.replace("/onboarding/Login");
             } else {
-              router.replace("/auth/WelcomePage");
+              router.replace("/(home)/HomePage");
             }
           });
         });
