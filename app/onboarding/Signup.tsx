@@ -78,10 +78,8 @@ const Signup = () => {
     const err = firebaseErrorMap[code];
 
     if (err) {
-      
       if (
-        err.message ===
-        "The password is too weak (less than 6 characters)."
+        err.message === "The password is too weak (less than 6 characters)."
       ) {
         Toast.show({
           type: "error",
@@ -255,10 +253,11 @@ const Signup = () => {
             )}
           />
 
-          <ClotButton
-            buttonText={loading ? "Loading..." : "Sign Up"}
-            onPress={handleSubmit(onSubmit)}
-          />
+          <ClotButton onPress={handleSubmit(onSubmit)}>
+            <Text className="text-secondary text-xl font-bold leading-relaxed">
+              {loading ? "Loading..." : "Sign Up"}
+            </Text>
+          </ClotButton>
 
           <ForgetPasswordLInk loading />
         </View>

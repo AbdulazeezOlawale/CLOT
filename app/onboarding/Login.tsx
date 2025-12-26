@@ -134,7 +134,9 @@ const Login = () => {
         text1: "User Logged In Successfully",
         text2: response.user.uid,
       });
- 
+
+      router.replace("/(home)/HomePage");
+
       reset();
     } catch (error: any) {
       handleFirebaseError(error.code);
@@ -205,10 +207,11 @@ const Login = () => {
             )}
           />
 
-          <ClotButton
-            buttonText={loading ? "Loading..." : "Sign In"}
-            onPress={handleSubmit(onSubmit)}
-          />
+          <ClotButton onPress={handleSubmit(onSubmit)}>
+            <Text className="text-secondary text-xl font-bold leading-relaxed">
+              {loading ? "Loading..." : "Sign Up"}
+            </Text>
+          </ClotButton>
         </View>
 
         <View className="flex flex-row gap-1 items-center">

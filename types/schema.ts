@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { JSX } from "react";
 import { z } from "zod";
 
@@ -63,4 +64,23 @@ export type LoginSchemaType = z.infer<typeof loginSchema>;
 export interface continueWithDataInterface {
   icon: JSX.Element;
   text: string;
+}
+
+export interface Product {
+  title: string;
+  subTitle: string;
+  productCode: string;
+  price: number;
+  initialPrice: string;
+  discountPercentage: string;
+  image: string;
+  pdpUrl: string;
+  createdAt: Timestamp;
+}
+
+export interface ClotGeneralInputProps {
+    value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  placeholder?: string;
+  classname?: string;
 }

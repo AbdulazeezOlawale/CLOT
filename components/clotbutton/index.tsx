@@ -3,19 +3,18 @@ import React from "react";
 import ClotPressable from "../common/ClotPressable";
 
 interface ClotButtonProps {
-  buttonText: string;
   onPress?: () => void;
+  classname?: string;
+  children: React.ReactElement;
 }
 
-const ClotButton = ({ buttonText, onPress }: ClotButtonProps) => {
+const ClotButton = ({ children, onPress, classname }: ClotButtonProps) => {
   return (
     <ClotPressable
       onPress={() => onPress?.()}
-      classname="px-6 py-3 bg-primary rounded-full overflow-hidden flex items-center justify-center"
+      classname={`bg-primary rounded-full overflow-hidden flex items-center justify-center ${classname}`}
     >
-      <Text className="text-secondary text-xl font-bold leading-relaxed">
-        {buttonText}
-      </Text>
+      {children}
     </ClotPressable>
   );
 };
