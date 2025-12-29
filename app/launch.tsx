@@ -2,7 +2,7 @@ import { View } from "react-native";
 import React, { useEffect, useRef } from "react";
 import * as Animatable from "react-native-animatable";
 import { useRouter } from "expo-router";
-import { getAuth } from "@firebase/auth";
+import { getAuth } from "firebase/auth";
 
 const Launch = () => {
   const backgroundRef = useRef<any>(null);
