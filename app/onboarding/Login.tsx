@@ -207,7 +207,7 @@ const Login = () => {
             )}
           />
 
-          <ClotButton onPress={handleSubmit(onSubmit)}>
+          <ClotButton onPress={handleSubmit(onSubmit)} classname="py-3">
             <Text className="text-secondary text-xl font-bold leading-relaxed">
               {loading ? "Loading..." : "Sign Up"}
             </Text>

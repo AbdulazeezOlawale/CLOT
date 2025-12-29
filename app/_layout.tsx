@@ -1,8 +1,10 @@
 import BaseToastCustomComponent from "@/components/common/BaseToastCustomComponent";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { Check, CircleAlert, TriangleAlert, X } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Toast, {
   BaseToastProps,
 } from "react-native-toast-message";
@@ -70,22 +72,24 @@ export default function RootLayout() {
   };
 
   return (
-    <>
-      <Stack>
-        <Stack.Screen
-          name="launch"
-          options={{ title: "Launch", headerShown: false }}
-        />
-        <Stack.Screen
-          name="onboarding"
-          options={{ title: "Onboarding", headerShown: false }}
-        />
-        <Stack.Screen
-          name="(home)"
-          options={{ title: "home", headerShown: false }}
-        />
-      </Stack>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <Stack>
+          <Stack.Screen
+            name="launch"
+            options={{ title: "Launch", headerShown: false }}
+          />
+          <Stack.Screen
+            name="onboarding"
+            options={{ title: "Onboarding", headerShown: false }}
+          />
+          <Stack.Screen
+            name="(home)"
+            options={{ title: "home", headerShown: false }}
+          />
+        </Stack>
+      </BottomSheetModalProvider>
       <Toast config={toastConfig} />
-    </>
+    </GestureHandlerRootView>
   );
 }
