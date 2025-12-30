@@ -1,20 +1,14 @@
-import { Text } from "react-native";
 import React from "react";
 import ClotPressable from "../common/ClotPressable";
+import { ClotButtonProps } from "@/types/schema";
 
-interface ClotButtonProps {
-  onPress?: () => void;
-  classname?: string;
-  children: React.ReactElement;
-}
-
-const ClotButton = ({ children, onPress, classname }: ClotButtonProps) => {
+const ClotButton = (props: ClotButtonProps) => {
   return (
     <ClotPressable
-      onPress={() => onPress?.()}
-      classname={`bg-primary rounded-full overflow-hidden flex items-center justify-center ${classname}`}
+      {...props}
+      classname={`bg-primary rounded-full overflow-hidden flex items-center justify-center ${props.classname}`}
     >
-      {children}
+      {props.children}
     </ClotPressable>
   );
 };

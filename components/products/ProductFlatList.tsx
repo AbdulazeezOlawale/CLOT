@@ -1,5 +1,5 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { Dispatch, memo, SetStateAction } from "react";
 import { Product } from "@/types/schema";
 import ClotButton from "../clotbutton";
 
@@ -7,12 +7,14 @@ interface ProductFlatListProps {
   productItem: Product;
   onOpen: () => void;
   onClose: () => void;
+  setCurrentProductItemId: Dispatch<SetStateAction<string>>;
+
+  onActiveOrder: (productItem: Product) => void;
 }
 
 const ProductFlatList = ({
   productItem,
-  onOpen,
-  onClose,
+  onActiveOrder
 }: ProductFlatListProps) => {
   return (
     <View className="bg-secondary rounded-lg shadow-sm p-2 gap-2">
@@ -33,7 +35,7 @@ const ProductFlatList = ({
         <ClotButton classname="!bg-[#e9eaec] flex-1 py-2.5 !rounded-md">
           <Text className="font-semibold">Add to Cart</Text>
         </ClotButton>
-        <ClotButton classname=" flex-1 py-2.5 !rounded-md" onPress={onOpen}>
+        <ClotButton classname=" flex-1 py-2.5 !rounded-md" onPress={() => onActiveOrder(productItem)}>
           <Text className="text-white font-semibold">Order Item</Text>
         </ClotButton>
       </View>
@@ -41,4 +43,4 @@ const ProductFlatList = ({
   );
 };
 
-export default ProductFlatList;
+export default memo(ProductFlatList);
