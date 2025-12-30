@@ -84,3 +84,11 @@ export interface ClotGeneralInputProps {
   placeholder?: string;
   classname?: string;
 }
+
+
+export interface ClotButtonProps {
+  onPress?: () => void;
+  classname?: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+}

@@ -1,17 +1,14 @@
 import { Pressable } from "react-native";
 import React from "react";
+import { ClotButtonProps } from "@/types/schema";
 
-interface ClotPressableProps {
-  onPress: () => void;
-  classname?: string;
-  children: React.ReactNode;
-}
 
 const ClotPressable = ({
   onPress,
   classname,
   children,
-}: ClotPressableProps) => {
+  disabled
+}: ClotButtonProps) => {
   return (
     <Pressable
       onPress={onPress}
@@ -21,6 +18,7 @@ const ClotPressable = ({
         foreground: true,
       }}
       className={`${classname}`}
+      disabled={disabled}
     >
       {children}
     </Pressable>
