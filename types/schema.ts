@@ -1,5 +1,9 @@
-import { Timestamp } from "firebase/firestore";
-import { JSX } from "react";
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { Dispatch, JSX, SetStateAction } from "react";
 import { z } from "zod";
 
 export const signupSchema = z.object({
@@ -79,16 +83,36 @@ export interface Product {
 }
 
 export interface ClotGeneralInputProps {
-    value: string;
+  value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   placeholder?: string;
   classname?: string;
 }
-
 
 export interface ClotButtonProps {
   onPress?: () => void;
   classname?: string;
   children: React.ReactNode;
   disabled?: boolean;
+}
+
+export interface productServiceProps {
+  limitCount: number;
+  setReels: React.Dispatch<React.SetStateAction<Product[]>>;
+  setLastVisible: React.Dispatch<
+    React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
+  >;
+  setHasMore: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface loadingMoreItemsProps extends productServiceProps {
+  lastVisible: QueryDocumentSnapshot<DocumentData> | null;
+  loadingMore: boolean;
+  hasMore: boolean;
+  setLoadingMore: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface StickyLayoutContextType {
+  stickyHeight: number;
+  setStickyHeight: Dispatch<SetStateAction<number>>;
 }

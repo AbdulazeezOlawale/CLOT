@@ -18,7 +18,7 @@ const ProductFlatList = ({
 }: ProductFlatListProps) => {
   return (
     <View className="bg-secondary rounded-lg shadow-sm p-2 gap-2">
-      <View className="w-48 h-36 bg-[#e9eaec] rounded-md">
+      <View className="bg-[#e9eaec] rounded-md" style={{width: 174, height: 144}}>
         <Image
           source={{ uri: productItem.image }}
           className="size-full"
