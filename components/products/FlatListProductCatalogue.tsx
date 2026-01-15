@@ -31,6 +31,7 @@ const FlatListProductCatalogue = (props: flatListProductCatalogueProps) => {
     setLastVisible,
     setLoadingMore,
     setReels,
+    loadItemsDispatch,
     lastVisible,
     limitCount,
     onRefresh,
@@ -62,6 +63,7 @@ const FlatListProductCatalogue = (props: flatListProductCatalogueProps) => {
                 setLastVisible,
                 setLoadingMore,
                 setReels,
+                loadItemsDispatch,
               })
       }
       onEndReachedThreshold={0.5}

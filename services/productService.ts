@@ -1,9 +1,15 @@
 import { db } from "@/firebaseConfig";
-import { loadingMoreItemsProps, Product, productServiceProps } from "@/types/schema";
+import { loadingMoreItemsProps, LoadItemsKind, Product, productServiceProps } from "@/types/schema";
 import { collection, getDocs, limit, query, startAfter } from "firebase/firestore";
 
 // fetch initial 5 items from endpoint
-export const loadInitialPosts = async ({limitCount, setReels, setLastVisible, setHasMore}: productServiceProps) => {
+export const loadInitialPosts = async ({
+  limitCount,
+  setReels,
+  setLastVisible,
+  setHasMore,
+  loadItemsDispatch,
+}: productServiceProps) => {
   try {
     const q = query(collection(db, "products"), limit(limitCount));
 
@@ -19,7 +25,14 @@ export const loadInitialPosts = async ({limitCount, setReels, setLastVisible, se
 
     setReels(fetched);
     setLastVisible(snapShot.docs[snapShot.docs.length - 1]);
-    setHasMore(snapShot.docs.length === limitCount);
+    setHasMore(snapShot.docs.length >= limitCount);
+
+    loadItemsDispatch({
+      productItems: fetched,
+      hasMore: snapShot.docs.length >= limitCount,
+      lastVisible: snapShot.docs[snapShot.docs.length - 1],
+      type: LoadItemsKind.GETMORE,
+    });
   } catch (error) {
     console.error("Error loading more posts:", error);
   }

@@ -9,27 +9,34 @@ const Launch = () => {
   const logoRef = useRef<any>(null);
   const router = useRouter();
 
+  // wait for the splash screen animation to finish then check if the user is logged in or not to route to the appropriate screen
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const handleNavigation = setTimeout(async () => {
       if (backgroundRef.current && logoRef.current) {
-        Promise.all([
+        const refs = [
           backgroundRef.current.fadeOut(500),
           logoRef.current.fadeOut(500),
-        ]).then(() => {
-          // if user is authenticated route to the main screen else route to the auth screen
-          getAuth().onAuthStateChanged((user) => {
-            if (!user) {
-              router.replace("/onboarding/Login");
-            } else {
-              router.replace("/(home)/HomePage");
-            }
+        ];
+        await Promise.all(refs);
+
+        const user = await new Promise((resolve) => {
+          const unsubscribe = getAuth().onAuthStateChanged((user) => {
+            unsubscribe();
+            resolve(user);
           });
         });
+
+        if (!user) {
+          router.replace("/onboarding/Login");
+        } else {
+          router.replace("/(home)/HomePage");
+        }
       }
     }, 4000);
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(handleNavigation);
+  }, [router]);
+
 
   return (
     <View className="flex-1">

@@ -11,7 +11,10 @@ import { auth, db } from "@/firebaseConfig";
 import { signupSchema, SignupSchemaType } from "@/types/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import React, { JSX, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -27,7 +30,7 @@ interface continueWithDataInterface {
 const Signup = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-
+  
   const firebaseErrorMap: Record<
     string,
     { field: "email" | "password"; message: string }
@@ -111,13 +114,17 @@ const Signup = () => {
         data.password
       );
 
-      Toast.show({
-        type: "success",
-        text1: "User Created Successfully",
-        text2: userCredential.user.uid,
-      });
-
       console.log(userCredential);
+
+      // await the creation of user(unsubscribe)
+      await new Promise<void>((resolve) => {
+        const unsub = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            unsub();
+            resolve();
+          }
+        });
+      });
 
       // create a firestore collection
       // 1. add data object
@@ -128,7 +135,6 @@ const Signup = () => {
         createdAt: new Date().getTime(),
         updatedAt: new Date().getTime(),
         userId: userCredential.user.uid,
-        onBoardPending: true,
       };
 
       // 2. Add data to firestore
@@ -137,10 +143,27 @@ const Signup = () => {
         profileData
       );
 
-      // 3. reset form and route to login screen
-      router.push("/onboarding/Login");
-      reset();
+      // 3. reset form and move to the next screen
+      if (userCredential.user.uid) {
+        Toast.show({
+          type: "success",
+          text1: "User Created Successfully",
+        });
+        reset();
+        router.replace("/(home)/HomePage");
+      }
     } catch (error: any) {
+      console.log("FULL FIREBASE ERROR:", error);
+
+      if (error.code === "auth/network-request-failed") {
+        Toast.show({
+          type: "error",
+          text1: "Network error",
+          text2: "Please check your connection and try again",
+        });
+        return;
+      }
+
       handleFirebaseError(error.code);
     } finally {
       setLoading(false);
@@ -253,7 +276,7 @@ const Signup = () => {
             )}
           />
 
-          <ClotButton onPress={handleSubmit(onSubmit)}>
+          <ClotButton onPress={handleSubmit(onSubmit)} classname="py-3">
             <Text className="text-secondary text-xl font-bold leading-relaxed">
               {loading ? "Loading..." : "Sign Up"}
             </Text>
@@ -267,4 +290,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default React.memo(Signup);

@@ -115,24 +115,27 @@ const Login = () => {
 
     try {
       // log user in
-      const response = await signInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
 
-      console.log(response);
+      console.log(userCredential);
 
-      const userDocRef = doc(db, "userProfiles", response.user.uid);
+      await new Promise<void>((resolve) => {
+
+      })
+
+      const userDocRef = doc(db, "userProfiles", userCredential.user.uid);
       await updateDoc(userDocRef, {
-        onBoardingPending: false,
         updatedAt: new Date().getTime(),
       });
 
       Toast.show({
         type: "success",
         text1: "User Logged In Successfully",
-        text2: response.user.uid,
+        text2: userCredential.user.uid,
       });
 
       router.replace("/(home)/HomePage");

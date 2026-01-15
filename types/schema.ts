@@ -96,6 +96,23 @@ export interface ClotButtonProps {
   disabled?: boolean;
 }
 
+// type for the action.type (we use enum because it's a constant variable that should be available in runtime)
+export enum LoadItemsKind {
+  GETMORE = "GETMORE",
+  NOTHINGMORE = "NOTHINGMORE",
+}
+
+// types for initial state
+export type InitialStateType = {
+  productItems?: Product[];
+  lastVisible?: QueryDocumentSnapshot<DocumentData> | null;
+  hasMore: boolean;
+};
+
+export type LoadItemsAction = InitialStateType & {
+  type: LoadItemsKind;
+};
+
 export interface productServiceProps {
   limitCount: number;
   setReels: React.Dispatch<React.SetStateAction<Product[]>>;
@@ -103,6 +120,7 @@ export interface productServiceProps {
     React.SetStateAction<QueryDocumentSnapshot<DocumentData> | null>
   >;
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>;
+  loadItemsDispatch: React.ActionDispatch<[action: LoadItemsAction]>;
 }
 
 export interface loadingMoreItemsProps extends productServiceProps {
