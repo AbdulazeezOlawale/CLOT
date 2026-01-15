@@ -1,33 +1,37 @@
 import React from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
+import { StyleProp, View, ViewStyle,  } from "react-native";
 import HeaderText from "../common/HeaderText";
 
 interface SafeAreaWrapperProps {
   children: React.ReactNode;
   aboveHeaderText?: React.ReactNode;
   edges?: ("top" | "bottom" | "left" | "right")[];
-  headerText?: string
+  headerText?: string,
+  styles?: StyleProp<ViewStyle>;
 }
 
 export function SafeAreaWrapper({
   children,
   aboveHeaderText,
   edges = ["top", "bottom"],
-  headerText
+  headerText,
+  styles
 }: SafeAreaWrapperProps) {
   // const colorScheme = useColorScheme();
 
   return (
     <SafeAreaProvider>
       <SafeAreaView
-        style={{
+        style={[{
           flex: 1,
           paddingHorizontal: 15,
           paddingVertical: 20,
           backgroundColor: "#FFFFFF",
-        }}
+        },
+        styles
+      ]}
         edges={edges}
       >
         <StatusBar style={"dark"} />

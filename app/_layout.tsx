@@ -1,33 +1,46 @@
 import BaseToastCustomComponent from "@/components/common/BaseToastCustomComponent";
+import { auth } from "@/firebaseConfig";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { Stack, useRouter } from "expo-router";
+import { onAuthStateChanged } from "firebase/auth";
 import { Check, CircleAlert, TriangleAlert, X } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Toast, {
-  BaseToastProps,
-} from "react-native-toast-message";
+import Toast, { BaseToastProps } from "react-native-toast-message";
 
 export default function RootLayout() {
-  const [isReady, setIsReady] = useState(false);
+  const [isAuthLoaded, setIsAuthLoaded] = useState(false);
+  const [isAnimationDone, setIsAnimationDone] = useState(false);
 
+  const router = useRouter();
+
+  // wait for the splash screen animation to end
   useEffect(() => {
-    async function prepare() {
-      try {
-        SplashScreen.preventAutoHideAsync();
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setIsReady(true);
-        await SplashScreen.hideAsync();
-      }
-    }
+    const timer = setTimeout(() => {
+      setIsAnimationDone(true);
+    }, 4000);
 
-    prepare();
+    return () => clearTimeout(timer);
   }, []);
 
-  if (!isReady) {
+  // unsubscribe from firebase state listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      // Only navigate if BOTH the auth is loaded AND the animation is finished
+      if (isAuthLoaded && isAnimationDone) {
+        if (!user) {
+          router.replace("/onboarding/Login");
+        } else {
+          router.replace("/(home)/HomePage");
+        }
+      }
+      setIsAuthLoaded(true);
+    });
+
+    return () => unsubscribe();
+  }, [isAuthLoaded, isAnimationDone, router]);
+
+  if (!isAuthLoaded) {
     return null;
   }
 
